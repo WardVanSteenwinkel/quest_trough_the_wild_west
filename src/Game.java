@@ -35,7 +35,7 @@ public class Game {
      */
     private void createRooms() {
         Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, UnderWater;
-//        Item promoBoard, ashtray;
+        Item gun, gun2;
 
         // create the rooms
         LosAngeles = new Room("are in Los Angeles. The largest city in the West.");
@@ -49,15 +49,16 @@ public class Game {
         Vancouver_Beach = new Room("are at Vancouver Beach.");
         UnderWater = new Room("are underwater.");
 
-//        // create the items
-//        promoBoard = new Item("promoboard", "University promoboard", 2.3);
-//        ashtray = new Item("ashtray", "Big yellow ashtray", 4.6);
+        // create the items
+        gun = new Item("gun", "grossen blaffer", 9);
+        gun2 = new Item("gun2", "blaffer twei", 3);
+
 
         // initialise room exits
         LosAngeles.setExit("north", PacificRoute);
         LosAngeles.setExit("south", MexicanBorder);
-        LosAngeles.setExit("east", LA_Beach);
-        LosAngeles.setExit("west", DeathValley);
+        LosAngeles.setExit("west", LA_Beach);
+        LosAngeles.setExit("east", DeathValley);
         GhostTown.setExit("north", DeathValley);
         DeathValley.setExit("south", GhostTown);
         DeathValley.setExit("west", LosAngeles);
@@ -72,6 +73,10 @@ public class Game {
         Vancouver.setExit("up", MountStHelens);
         Vancouver_Beach.setExit("east", Vancouver);
         MountStHelens.setExit("down", Vancouver);
+
+        //initialise items
+        DeathValley.addItem(gun);
+        DeathValley.addItem(gun2);
 
         this.player = new Player("player", LosAngeles);
     }

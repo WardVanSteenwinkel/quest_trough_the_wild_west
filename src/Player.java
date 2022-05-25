@@ -5,6 +5,7 @@ public class Player {
     private String gender;
     private Room currentRoom;
     private ArrayList<Item> items;
+    private double maxWeight = 10;
 
     public Player(String name, Room currentRoom) {
         this.name = name;
@@ -53,10 +54,13 @@ public class Player {
     }
 
     public boolean take(String itemName) {
-        if (currentRoom.hasItem(itemName)) {
-            items.add(currentRoom.getItem(itemName));
+        Item i = currentRoom.getItem(itemName);
+        if (currentRoom.hasItem(itemName) && playerWeightChecker(i)) {
+            items.add(i);
+            currentRoom.removeItem(i);
             return true;
         }
+        System.out.println("Item to heavy!");
         return false;
     }
 
@@ -85,6 +89,18 @@ public class Player {
             }
         }
         return desc;
+    }
+
+    public boolean playerWeightChecker(Item item){
+        double totalWeight = 0;
+        for(Item i : items){
+            totalWeight += i.getWeight();
+        }
+        if((item.getWeight() + totalWeight) <= maxWeight){
+            return true;
+        }else{
+            return false;
+        }
     }
 
 }

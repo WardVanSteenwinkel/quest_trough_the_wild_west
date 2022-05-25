@@ -93,9 +93,7 @@ public class Room {
     public Item getItem(String name) {
         for (Item item : items) {
             if (item.getName().equals(name)) {
-                if (items.remove(item)) {
-                    return item;
-                }
+                return item;
             }
         }
         return null;
@@ -103,5 +101,9 @@ public class Room {
 
     public String getLongDescription() {
         return "You are " + description + getItemsString() + "\n"  + getExitString();
+    }
+
+    public void removeItem(Item item){
+        items.remove(item);
     }
 }
