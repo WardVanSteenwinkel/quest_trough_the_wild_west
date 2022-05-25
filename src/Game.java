@@ -90,7 +90,7 @@ public class Game {
             Command command = parser.getCommand();
             finished = processCommand(command);
         }
-        System.out.println("Thank you for playing.  Good bye.");
+        System.out.println("Thank you for playing.  Good bye!");
     }
 
     /**
@@ -117,12 +117,14 @@ public class Game {
         }else {
             System.out.println("I don't understand. Please enter your gender: (male/female)"); //bug!
         }
-        if(playerGenderLower.equals("male")){
+        if(player.hasGender()){
+            System.out.println();
             System.out.println("Hello " + playerName + ", not long ago you were part of a outlaw group called: 'The Pissed Off Bastards of Bloomington'.");
+        }
+        if(playerGenderLower.equals("male")){
             System.out.println("But after many years of looting and traveling trough the West you found your true love Lauren.");
         }
         if(playerGenderLower.equals("female")){
-            System.out.println("Hello " + playerName + ", not long ago you were part of a outlaw group called: 'The Pissed Off Bastards of Bloomington'.");
             System.out.println("But after many years of looting and traveling trough the West you found your true love William.");
         }
         if(player.hasGender()){
@@ -132,13 +134,15 @@ public class Game {
             System.out.println("He and the rest of those bastards kidnapped your significant other!");
             System.out.println("Now it's all up to you to find your partner...");
             System.out.println("");
+            System.out.println("Possible actions:");
+            System.out.println(parser.showCommands());
+            System.out.println();
+            System.out.println("Example: Type 'go north' to go north!");
+            System.out.println();
+            System.out.println("Type '" + CommandWord.HELP.toString() + "' if you need help.");
+            System.out.println();
+            printLocationInfo();
         }
-
-
-
-        System.out.println("Type '" + CommandWord.HELP.toString() + "' if you need help.");
-        System.out.println();
-        printLocationInfo();
     }
 
     private void printLocationInfo() {
@@ -196,7 +200,7 @@ public class Game {
      */
     private void printHelp() {
         System.out.println("Player " + player.getName() + " is lost and alone, and wanders");
-        System.out.println("around at the university.");
+        System.out.println("around at the West.");
         System.out.println();
         System.out.println("Possible command words are:   " + parser.showCommands());
         System.out.println();
