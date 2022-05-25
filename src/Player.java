@@ -2,6 +2,7 @@ import java.util.ArrayList;
 
 public class Player {
     private String name;
+    private String gender;
     private Room currentRoom;
     private ArrayList<Item> items;
 
@@ -9,6 +10,23 @@ public class Player {
         this.name = name;
         this.currentRoom = currentRoom;
         items = new ArrayList<>();
+    }
+
+    public String getGender() {
+        return gender;
+    }
+
+    public boolean hasGender(){
+        if(gender.equals("male") || gender.equals("female")){
+            return true;
+        }else{
+            return false;
+        }
+    }
+
+
+    public void setGender(String gender) {
+        this.gender = gender;
     }
 
     public String getName() {
@@ -68,4 +86,5 @@ public class Player {
         }
         return desc;
     }
+
 }

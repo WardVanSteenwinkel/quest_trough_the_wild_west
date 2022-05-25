@@ -1,3 +1,6 @@
+import java.util.Locale;
+import java.util.Scanner;
+
 /**
  * This class is the main class of the "World of Zuul" application.
  * "World of Zuul" is a very simple, text based adventure game.  Users
@@ -31,36 +34,46 @@ public class Game {
      * Create all the rooms and link their exits together.
      */
     private void createRooms() {
-        Room outside, theater, pub, lab, office, cellar;
-        Item promoBoard, ashtray;
+        Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, UnderWater;
+//        Item promoBoard, ashtray;
 
         // create the rooms
-        outside = new Room("outside the main entrance of the university");
-        theater = new Room("in a lecture theater");
-        pub = new Room("in the campus pub");
-        lab = new Room("in a computing lab");
-        office = new Room("in the computing admin office");
-        cellar = new Room("in the cellar");
+        LosAngeles = new Room("are in Los Angeles. The largest city in the West.");
+        DeathValley = new Room("are in Death Valley, one of the hottest places on earth.");
+        MexicanBorder = new Room("are at the Mexican Border.");
+        Vancouver = new Room("are in Vancouver.");
+        PacificRoute = new Room("are on the Pacific Route.");
+        MountStHelens = new Room("are on top of Mount St. Helens.");
+        GhostTown = new Room("are in a GhostTown.");
+        LA_Beach = new Room("are at LA Beach.");
+        Vancouver_Beach = new Room("are at Vancouver Beach.");
+        UnderWater = new Room("are underwater.");
 
-        // create the items
-        promoBoard = new Item("promoboard", "University promoboard", 2.3);
-        ashtray = new Item("ashtray", "Big yellow ashtray", 4.6);
+//        // create the items
+//        promoBoard = new Item("promoboard", "University promoboard", 2.3);
+//        ashtray = new Item("ashtray", "Big yellow ashtray", 4.6);
 
         // initialise room exits
-        outside.setExit("east", theater);
-        outside.addItem(promoBoard);
-        outside.addItem(ashtray);
-        outside.setExit("south", lab);
-        outside.setExit("west", pub);
-        theater.setExit("west", outside);
-        pub.setExit("east", outside);
-        lab.setExit("north", outside);
-        lab.setExit("east", office);
-        office.setExit("west", lab);
-        office.setExit("down", cellar);
-        cellar.setExit("up", office);
+        LosAngeles.setExit("north", PacificRoute);
+        LosAngeles.setExit("south", MexicanBorder);
+        LosAngeles.setExit("east", LA_Beach);
+        LosAngeles.setExit("west", DeathValley);
+        GhostTown.setExit("north", DeathValley);
+        DeathValley.setExit("south", GhostTown);
+        DeathValley.setExit("west", LosAngeles);
+        MexicanBorder.setExit("north", LosAngeles);
+        LA_Beach.setExit("down", UnderWater);
+        LA_Beach.setExit("east", LosAngeles);
+        UnderWater.setExit("up", LA_Beach);
+        PacificRoute.setExit("south", LosAngeles);
+        PacificRoute.setExit("north", Vancouver);
+        Vancouver.setExit("south", PacificRoute);
+        Vancouver.setExit("west", Vancouver_Beach);
+        Vancouver.setExit("up", MountStHelens);
+        Vancouver_Beach.setExit("east", Vancouver);
+        MountStHelens.setExit("down", Vancouver);
 
-        this.player = new Player("Tom", outside);
+        this.player = new Player("player", LosAngeles);
     }
 
     /**
@@ -85,8 +98,44 @@ public class Game {
      */
     private void printWelcome() {
         System.out.println();
-        System.out.println("Welcome to the World of Zuul!");
-        System.out.println("World of Zuul is a new, incredibly boring adventure game.");
+        System.out.println("WELCOME TO QUEST TROUGH THE WILD WEST!");
+        System.out.println();
+        System.out.println("Quest Trough The Wild West is a text-based adventure game.");
+        System.out.println();
+        System.out.println("To start, please enter your name:");
+        System.out.print("> ");
+        Scanner scanner = new Scanner(System.in);
+        String playerName = scanner.nextLine();
+        player.setName(playerName);
+        System.out.println();
+        System.out.println("Please enter your gender: (male/female)");
+        System.out.print("> ");
+        String playerGender = scanner.nextLine();
+        String playerGenderLower = playerGender.toLowerCase();
+        if(playerGenderLower.equals("male") || playerGenderLower.equals("female")){
+            player.setGender(playerGender);
+        }else {
+            System.out.println("I don't understand. Please enter your gender: (male/female)"); //bug!
+        }
+        if(playerGenderLower.equals("male")){
+            System.out.println("Hello " + playerName + ", not long ago you were part of a outlaw group called: 'The Pissed Off Bastards of Bloomington'.");
+            System.out.println("But after many years of looting and traveling trough the West you found your true love Lauren.");
+        }
+        if(playerGenderLower.equals("female")){
+            System.out.println("Hello " + playerName + ", not long ago you were part of a outlaw group called: 'The Pissed Off Bastards of Bloomington'.");
+            System.out.println("But after many years of looting and traveling trough the West you found your true love William.");
+        }
+        if(player.hasGender()){
+            System.out.println("Not long after that you decided to leave the group to start a normal life with your lover.");
+            System.out.println("But, the leader 'Johnny O' Jackson' was furious, and he decided to take revenge...");
+            System.out.println();
+            System.out.println("He and the rest of those bastards kidnapped your significant other!");
+            System.out.println("Now it's all up to you to find your partner...");
+            System.out.println("");
+        }
+
+
+
         System.out.println("Type '" + CommandWord.HELP.toString() + "' if you need help.");
         System.out.println();
         printLocationInfo();
