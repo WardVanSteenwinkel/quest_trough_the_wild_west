@@ -103,4 +103,7 @@ public class Player {
         }
     }
 
+    public ArrayList<Item> getItems() {
+        return items;
+    }
 }

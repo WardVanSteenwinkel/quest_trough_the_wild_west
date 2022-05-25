@@ -188,6 +188,9 @@ public class Game {
             case GO:
                 goRoom(command);
                 break;
+            case ITEMS:
+                items();
+                break;
             case QUIT:
                 wantToQuit = quit(command);
                 break;
@@ -268,6 +271,12 @@ public class Game {
             printLocationInfo();
         } else {
             System.out.println("There is no item here with the name " + itemName);
+        }
+    }
+
+    private void items(){
+        for(Item i : player.getItems()){
+            System.out.println("name: " + i.getName() + "; description: " + i.getDescription() + "; weight: " + i.getWeight());
         }
     }
 
