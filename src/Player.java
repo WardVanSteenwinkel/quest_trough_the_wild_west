@@ -25,6 +25,13 @@ public class Player {
         }
     }
 
+    public double getMaxWeight() {
+        return maxWeight;
+    }
+
+    public void setMaxWeight(double maxWeight) {
+        this.maxWeight = maxWeight;
+    }
 
     public void setGender(String gender) {
         this.gender = gender;
@@ -46,7 +53,7 @@ public class Player {
         this.currentRoom = currentRoom;
     }
 
-    private boolean hasItem(String name) {
+    public boolean hasItem(String name) {
         for (Item item : items) {
             if (item.getName().equals(name)) return true;
         }
@@ -105,5 +112,19 @@ public class Player {
 
     public ArrayList<Item> getItems() {
         return items;
+    }
+
+    public boolean eat(String itemName){
+        if (this.hasItem(itemName)){
+            for(Item i : items){
+                if(i.getName().equals(itemName)){
+                    if(i instanceof Edible){
+                        items.remove(i);
+                        return true;
+                    }
+                }
+            }
+        }
+        return false;
     }
 }

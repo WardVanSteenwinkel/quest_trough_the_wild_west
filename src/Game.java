@@ -35,7 +35,7 @@ public class Game {
      */
     private void createRooms() {
         Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, UnderWater;
-        Item gun, gun2;
+        Item gun, gun2, magicCookie;
 
         // create the rooms
         LosAngeles = new Room("are in Los Angeles. The largest city in the West.");
@@ -52,6 +52,7 @@ public class Game {
         // create the items
         gun = new Item("gun", "grossen blaffer", 9);
         gun2 = new Item("gun2", "blaffer twei", 3);
+        magicCookie = new Edible("magicCookie", "your max load capacity will double if you eat this.", 1, 1);
 
 
         // initialise room exits
@@ -77,6 +78,7 @@ public class Game {
         //initialise items
         DeathValley.addItem(gun);
         DeathValley.addItem(gun2);
+        PacificRoute.addItem(magicCookie);
 
         this.player = new Player("player", LosAngeles);
     }
@@ -177,13 +179,16 @@ public class Game {
                 look();
                 break;
             case EAT:
-                eat();
+                eat(command);
                 break;
             case TAKE:
                 take(command);
                 break;
             case DROP:
                 drop(command);
+                break;
+            case STATS:
+                stats();
                 break;
             case GO:
                 goRoom(command);
@@ -218,8 +223,21 @@ public class Game {
         System.out.println(player.getCurrentRoom().getLongDescription());
     }
 
-    private void eat() {
-        System.out.println("Je hebt nu gegeten en bent niet meer hongerig\n");
+    private void eat(Command command) {
+        if(!command.hasSecondWord()){
+            System.out.println("Eat what?");
+        }
+        String edible = command.getSecondWord();
+        if(player.hasItem(edible)){
+            if(player.eat(edible)){
+                player.setMaxWeight(15);
+                System.out.println("Now you can carry " + player.getMaxWeight() + "kg");
+            }else{
+                System.out.println("This is not eatable.");
+            }
+        }else{
+            System.out.println("You don't have this item...");
+        }
     }
 
     /**
@@ -278,6 +296,10 @@ public class Game {
         for(Item i : player.getItems()){
             System.out.println("name: " + i.getName() + "; description: " + i.getDescription() + "; weight: " + i.getWeight());
         }
+    }
+
+    private void stats(){
+        System.out.println("Name: " + player.getName() + "; Gender: " + player.getGender() + "; Carry-load: " + player.getMaxWeight());
     }
 
     /**
