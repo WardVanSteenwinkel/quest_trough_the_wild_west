@@ -1,5 +1,6 @@
 import java.util.Locale;
 import java.util.Scanner;
+import java.util.Stack;
 
 /**
  * This class is the main class of the "World of Zuul" application.
@@ -196,6 +197,9 @@ public class Game {
             case ITEMS:
                 items();
                 break;
+            case BACK:
+                back();
+                break;
             case QUIT:
                 wantToQuit = quit(command);
                 break;
@@ -260,6 +264,7 @@ public class Game {
             System.out.println("There is no door!");
         } else {
             player.setCurrentRoom(nextRoom);
+            player.addRoomToStack(nextRoom);
             printLocationInfo();
         }
     }
@@ -301,6 +306,18 @@ public class Game {
     private void stats(){
         System.out.println("Name: " + player.getName() + "; Gender: " + player.getGender() + "; Carry-load: " + player.getMaxWeight());
     }
+
+
+    private void back(){
+        if(player.stackEmpty()){
+            System.out.println("You are at the beginning");
+        }else{
+            player.setCurrentRoom(player.goBack());
+            printLocationInfo();
+        }
+    }
+
+
 
     /**
      * "Quit" was entered. Check the rest of the command to see

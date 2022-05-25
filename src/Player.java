@@ -1,4 +1,5 @@
 import java.util.ArrayList;
+import java.util.Stack;
 
 public class Player {
     private String name;
@@ -6,11 +7,14 @@ public class Player {
     private Room currentRoom;
     private ArrayList<Item> items;
     private double maxWeight = 10;
+    private Stack<Room> history;
 
     public Player(String name, Room currentRoom) {
         this.name = name;
         this.currentRoom = currentRoom;
         items = new ArrayList<>();
+        history = new Stack<>();
+        history.add(currentRoom);
     }
 
     public String getGender() {
@@ -126,5 +130,17 @@ public class Player {
             }
         }
         return false;
+    }
+
+    public boolean stackEmpty(){
+        return history.isEmpty();
+    }
+
+    public void addRoomToStack(Room room){
+        history.add(room);
+    }
+
+    public Room goBack(){
+        return history.pop();
     }
 }
