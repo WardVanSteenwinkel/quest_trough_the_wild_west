@@ -199,6 +199,7 @@ public class Game {
                         p.harryWrong();
                     }
                 }
+                look();
             }
         }
         System.out.println();
@@ -240,7 +241,7 @@ public class Game {
                 goRoom(command);
                 break;
             case BACK:
-                back();
+                back(); //kleine bug eerste keer moet je twee keer back gebruiken
                 break;
             case QUIT:
                 wantToQuit = quit(command);
