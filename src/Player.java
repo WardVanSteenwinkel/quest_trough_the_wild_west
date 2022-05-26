@@ -77,13 +77,17 @@ public class Player {
         Item i = currentRoom.getItem(itemName);
         if(i instanceof PowerItem){
             power += ((PowerItem) i).getPower();
+            System.out.println("Your power has increased to " + power);
+            currentRoom.removeItem(i);
+            return true;
         }else if (currentRoom.hasItem(itemName) && playerWeightChecker(i)) {
             items.add(i);
             currentRoom.removeItem(i);
             return true;
+        }else{
+            System.out.println("Item to heavy!");
+            return false;
         }
-        System.out.println("Item to heavy!");
-        return false;
     }
 
     public boolean drop(String itemName) {

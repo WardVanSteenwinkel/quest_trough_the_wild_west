@@ -81,7 +81,7 @@ public class Game {
         MountStHelens.setExit("down", Vancouver);
 
         //create persons
-        harry = new Person("Harry", PacificRoute);
+        harry = new Person("Harry");
         harry.addItem(magicBracelet);
 
         //initialise items and persons
@@ -192,7 +192,8 @@ public class Game {
                 String answerLower = answerHarry.toLowerCase();
                 if(answerLower.equals("president") || answerLower.equals("the president")){
                     p.harryAnswer();
-
+                    r.addItem(p.dropItem("magicBracelet"));
+                    player.take("magicBracelet");
                 }else{
                     p.harryWrong();
                 }

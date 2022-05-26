@@ -5,9 +5,8 @@ public class Person {
     private Room currentRoom;
     private ArrayList<Item> items;
 
-    public Person(String name, Room currentRoom) {
+    public Person(String name) {
         this.name = name;
-        this.currentRoom = currentRoom;
         items = new ArrayList<>();
     }
 
@@ -35,7 +34,15 @@ public class Person {
         this.items = items;
     }
 
-
+    public Item dropItem(String name){
+        for(Item i : items){
+            if(i.getName().equals(name)){
+                items.remove(i);
+                return i;
+            }
+        }
+        return null;
+    }
 
     public void addItem(Item item){
         this.items.add(item);
