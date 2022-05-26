@@ -14,6 +14,11 @@ public class Person {
         return name;
     }
 
+    public boolean hasItems(){
+        if(!items.isEmpty()) return true;
+        return false;
+    }
+
     public void setName(String name) {
         this.name = name;
     }
@@ -48,7 +53,7 @@ public class Person {
         this.items.add(item);
     }
 
-    public void generateText(){
+    public void harryText(){
         if(this.getName().equals("Harry")){
             System.out.println();
             System.out.println("Here at the Pacific Route are a lot off wanderers.");

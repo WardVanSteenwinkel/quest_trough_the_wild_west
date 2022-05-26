@@ -183,23 +183,23 @@ public class Game {
         System.out.println(player.getLongDescription());
         if(r.hasPerson()){
             Person p = r.getPerson();
-            p.generateText();
-            Scanner scanner = new Scanner(System.in);
-            String answer = scanner.nextLine();
-            if(answer.equals("yes")){
-                p.harryRiddle();
-                String answerHarry = scanner.nextLine();
-                String answerLower = answerHarry.toLowerCase();
-                if(answerLower.equals("president") || answerLower.equals("the president")){
-                    p.harryAnswer();
-                    r.addItem(p.dropItem("magicBracelet"));
-                    player.take("magicBracelet");
-                }else{
-                    p.harryWrong();
+            if (p.hasItems()){
+                p.harryText();
+                Scanner scanner = new Scanner(System.in);
+                String answer = scanner.nextLine();
+                if(answer.equals("yes")){
+                    p.harryRiddle();
+                    String answerHarry = scanner.nextLine();
+                    String answerLower = answerHarry.toLowerCase();
+                    if(answerLower.equals("president") || answerLower.equals("the president")){
+                        p.harryAnswer();
+                        r.addItem(p.dropItem("magicBracelet"));
+                        player.take("magicBracelet");
+                    }else{
+                        p.harryWrong();
+                    }
                 }
             }
-                System.out.println(r.getLongDescription());
-                System.out.println(player.getLongDescription());
         }
         System.out.println();
     }

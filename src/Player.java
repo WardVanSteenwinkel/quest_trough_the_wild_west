@@ -78,6 +78,7 @@ public class Player {
         if(i instanceof PowerItem){
             power += ((PowerItem) i).getPower();
             System.out.println("Your power has increased to " + power);
+            items.add(i);
             currentRoom.removeItem(i);
             return true;
         }else if (currentRoom.hasItem(itemName) && playerWeightChecker(i)) {
