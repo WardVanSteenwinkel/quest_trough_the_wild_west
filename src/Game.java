@@ -239,9 +239,6 @@ public class Game {
             case GO:
                 goRoom(command);
                 break;
-            case ITEMS:
-                items();
-                break;
             case BACK:
                 back();
                 break;
@@ -353,11 +350,6 @@ public class Game {
         }
     }
 
-    private void items(){
-        for(Item i : player.getItems()){
-            System.out.println("name: " + i.getName() + "; description: " + i.getDescription() + "; weight: " + i.getWeight());
-        }
-    }
 
     private void stats(){
         System.out.println("Name: " + player.getName() + "; Power: " + player.getPower() + "; Carry-load: " + player.getMaxWeight());
