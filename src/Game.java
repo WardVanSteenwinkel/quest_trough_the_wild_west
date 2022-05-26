@@ -1,6 +1,5 @@
-import java.util.Locale;
-import java.util.Scanner;
-import java.util.Stack;
+import java.text.DecimalFormat;
+import java.util.*;
 
 /**
  * This class is the main class of the "World of Zuul" application.
@@ -37,7 +36,7 @@ public class Game {
     private void createRooms() {
         Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest;
         Item gun, magicCookie, waterBottle, oxygenMask, magicBracelet;
-        Person harry;
+        Person harry, johnny, horse;
 
         // create the items
         gun = new PowerItem("gun", "this is a powerfun handgun", 3, 2);
@@ -53,7 +52,7 @@ public class Game {
         Vancouver = new Room("are in Vancouver");
         PacificRoute = new Room("are on the Pacific Route");
         MountStHelens = new Room("are on top of Mount St. Helens, an ancient Vulcano");
-        GhostTown = new Room("are in a GhostTown");
+        GhostTown = new Room("are in a GhostTown, this place looks deserted...");
         LA_Beach = new Room("are at LA Beach");
         Vancouver_Beach = new Room("are at Vancouver Beach");
         LA_UnderWater = new SpecialRoom("are underwater", oxygenMask);
@@ -89,14 +88,18 @@ public class Game {
         //create persons
         harry = new Person("Harry");
         harry.addItem(magicBracelet);
+        johnny = new PowerPerson("Johnny", 15, 100);
+        horse = new Person("horse");
+
 
         //initialise items and persons
-        LA_UnderWater.addItem(gun);
+        VANCOUVER_UnderWater.addItem(gun);
         PacificRoute.addItem(magicCookie);
-        Vancouver_Beach.addItem(waterBottle);
+        LosAngeles.addItem(waterBottle);
         MexicanBorder.addItem(oxygenMask);
         PacificRoute.addPerson(harry);
-
+        GhostTown.addPerson(johnny);
+        Vancouver_Beach.addPerson(horse);
 
 
         this.player = new Player("player", LosAngeles);
@@ -124,9 +127,22 @@ public class Game {
      */
     private void printWelcome() {
         System.out.println();
-        System.out.println("WELCOME TO QUEST TROUGH THE WILD WEST!");
+        System.out.println("\n" +
+                "░██████╗░██╗░░░██╗███████╗░██████╗████████╗  ████████╗██████╗░░█████╗░██╗░░░██╗░██████╗░██╗░░██╗\n" +
+                "██╔═══██╗██║░░░██║██╔════╝██╔════╝╚══██╔══╝  ╚══██╔══╝██╔══██╗██╔══██╗██║░░░██║██╔════╝░██║░░██║\n" +
+                "██║██╗██║██║░░░██║█████╗░░╚█████╗░░░░██║░░░  ░░░██║░░░██████╔╝██║░░██║██║░░░██║██║░░██╗░███████║\n" +
+                "╚██████╔╝██║░░░██║██╔══╝░░░╚═══██╗░░░██║░░░  ░░░██║░░░██╔══██╗██║░░██║██║░░░██║██║░░╚██╗██╔══██║\n" +
+                "░╚═██╔═╝░╚██████╔╝███████╗██████╔╝░░░██║░░░  ░░░██║░░░██║░░██║╚█████╔╝╚██████╔╝╚██████╔╝██║░░██║\n" +
+                "░░░╚═╝░░░░╚═════╝░╚══════╝╚═════╝░░░░╚═╝░░░  ░░░╚═╝░░░╚═╝░░╚═╝░╚════╝░░╚═════╝░░╚═════╝░╚═╝░░╚═╝\n" +
+                "\n" +
+                "████████╗██╗░░██╗███████╗  ░██╗░░░░░░░██╗███████╗░██████╗████████╗\n" +
+                "╚══██╔══╝██║░░██║██╔════╝  ░██║░░██╗░░██║██╔════╝██╔════╝╚══██╔══╝\n" +
+                "░░░██║░░░███████║█████╗░░  ░╚██╗████╗██╔╝█████╗░░╚█████╗░░░░██║░░░\n" +
+                "░░░██║░░░██╔══██║██╔══╝░░  ░░████╔═████║░██╔══╝░░░╚═══██╗░░░██║░░░\n" +
+                "░░░██║░░░██║░░██║███████╗  ░░╚██╔╝░╚██╔╝░███████╗██████╔╝░░░██║░░░\n" +
+                "░░░╚═╝░░░╚═╝░░╚═╝╚══════╝  ░░░╚═╝░░░╚═╝░░╚══════╝╚═════╝░░░░╚═╝░░░");
         System.out.println();
-        System.out.println("Quest Trough The Wild West is a text-based adventure game.");
+        System.out.println("Quest Trough The West is a text-based adventure game.");
         System.out.println();
         System.out.println("To start, please enter your name:");
         System.out.print("> ");
@@ -139,10 +155,13 @@ public class Game {
         String playerPower = scanner.nextLine();
         if(playerPower.equals("easy")){
             player.setPower(10);
+            player.setHealth(100);
         }else if(playerPower.equals("medium")){
             player.setPower(5);
+            player.setHealth(80);
         }else if(playerPower.equals("hard")){
             player.setPower(0);
+            player.setHealth(60);
         }
         System.out.println();
         System.out.println("Please enter your gender: (male/female)");
@@ -188,23 +207,11 @@ public class Game {
         System.out.println(player.getLongDescription());
         if(r.hasPerson()){
             Person p = r.getPerson();
-            if (p.hasItems()){
-                p.harryText();
-                Scanner scanner = new Scanner(System.in);
-                String answer = scanner.nextLine();
-                if(answer.equals("yes")){
-                    p.harryRiddle();
-                    String answerHarry = scanner.nextLine();
-                    String answerLower = answerHarry.toLowerCase();
-                    if(answerLower.equals("president") || answerLower.equals("the president")){
-                        p.harryAnswer();
-                        r.addItem(p.dropItem("magicBracelet"));
-                        player.take("magicBracelet");
-                    }else{
-                        p.harryWrong();
-                    }
-                }
-                look();
+            if(p.getName().equals("Harry")){
+                personHarry();
+            }
+            if(p.getName().equals("Johnny")){
+                personJohnny();
             }
         }
         System.out.println();
@@ -358,7 +365,7 @@ public class Game {
 
 
     private void stats(){
-        System.out.println("Name: " + player.getName() + "; Power: " + player.getPower() + "; Carry-load: " + player.getMaxWeight());
+        System.out.println("Name: " + player.getName() + "; Power: " + player.getPower() + "; health: " + player.getHealth() + "; Carry-load: " + player.getMaxWeight());
     }
 
 
@@ -374,6 +381,92 @@ public class Game {
             printLocationInfo();
         }
     }
+
+    private void personHarry(){
+        Room r = player.getCurrentRoom();
+        Person p = r.getPerson();
+        if (p.hasItems()){
+            p.harryText();
+            Scanner scanner = new Scanner(System.in);
+            String answer = scanner.nextLine();
+            if(answer.equals("yes")){
+                p.harryRiddle();
+                String answerHarry = scanner.nextLine();
+                String answerLower = answerHarry.toLowerCase();
+                if(answerLower.equals("president") || answerLower.equals("the president")){
+                    p.harryAnswer();
+                    r.addItem(p.dropItem("magicBracelet"));
+                    player.take("magicBracelet");
+                }else{
+                    p.harryWrong();
+                }
+            }
+            look();
+        }
+    }
+
+    private boolean fight(PowerPerson pp){
+        DecimalFormat df = new DecimalFormat("###.#");
+        int playerHealth = player.getHealth();
+        int ppHealth = pp.getHealth();
+        boolean notDead = (playerHealth > 0 && ppHealth > 0);
+
+        while (notDead){
+            double r = (Math.random())+0.5;
+            double playerAttack = (player.getPower())*r;
+            double ppAttack = (pp.getPower())*r;
+            System.out.println("Press f to fight: (f)");
+            System.out.println();
+            System.out.print("> ");
+            Scanner scanner = new Scanner(System.in);
+            String answer = scanner.nextLine();
+            if(answer.equals("f")){
+                ppHealth -= playerAttack;
+                System.out.println("--------------------------------");
+                System.out.println("You hit! --- " + df.format(playerAttack) + " damage!");
+                System.out.println(pp.getName() + " " + df.format(ppHealth) + " health");
+                System.out.println("--------------------------------");
+                if(ppHealth <= 0){
+                    System.out.println("You defeated " + pp.getName() + " !!!");
+                }else{
+                    playerHealth -= ppAttack;
+                    System.out.println("--------------------------------");
+                    System.out.println(pp.getName() + " hit! --- " + df.format(ppAttack) + " damage!");
+                    System.out.println(player.getName() + " " + df.format(playerHealth) + " health");
+                    System.out.println("--------------------------------");
+
+                }
+            }
+            if(!answer.equals("f")){
+                personJohnny();
+            }
+            notDead = (playerHealth > 0 && ppHealth > 0);
+        }
+
+        if(playerHealth > ppHealth){
+            return true; //won
+        }return false; //lost
+    }
+
+
+    private void personJohnny(){
+        Room r = player.getCurrentRoom();
+        Person p = r.getPerson();
+        ((PowerPerson) p).johnnyText();
+        Scanner scanner = new Scanner(System.in);
+        String answer = scanner.nextLine();
+        if(answer.equals("yes")){
+            if(fight((PowerPerson) p)){
+                System.out.println("You defeated " + p.getName() + "!!!");
+            }else{
+                System.out.println("You lost");
+
+            }
+        }else if(answer.equals("no")){
+            System.out.println("??");
+        }
+    }
+
 
 
 

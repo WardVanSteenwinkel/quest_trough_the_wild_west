@@ -9,6 +9,7 @@ public class Player {
     private double maxWeight = 10;
     private Stack<Room> history;
     private int power;
+    private int health;
 
     public Player(String name, Room currentRoom) {
         this.name = name;
@@ -28,6 +29,14 @@ public class Player {
         }else{
             return false;
         }
+    }
+
+    public int getHealth() {
+        return health;
+    }
+
+    public void setHealth(int health) {
+        this.health = health;
     }
 
     public double getMaxWeight() {

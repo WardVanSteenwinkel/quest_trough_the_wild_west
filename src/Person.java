@@ -65,25 +65,31 @@ public class Person {
     }
 
     public void harryRiddle(){
-        System.out.println();
-        System.out.println("Harry: If a green man lives in a green house, a purple man lives in a purple house, a blue man lives in a blue house,");
-        System.out.println("Harry: Who lives in a White house? hehehehe");
-        System.out.println();
-        System.out.print("> ");
+        if(this.getName().equals("Harry")){
+            System.out.println();
+            System.out.println("Harry: If a green man lives in a green house, a purple man lives in a purple house, a blue man lives in a blue house,");
+            System.out.println("Harry: Who lives in a White house? hehehehe");
+            System.out.println();
+            System.out.print("> ");
+        }
     }
 
     public void harryAnswer(){
-        System.out.println();
-        System.out.println("Harry: YES!!! HEHEHEHEHE");
-        System.out.println("Harry: As a reward I will give my Magic Bracelet");
-        System.out.println("Harry: It increases your power by 3");
-        System.out.println("Harry: hehehe");
-        System.out.println();
+        if(this.getName().equals("Harry")){
+            System.out.println();
+            System.out.println("Harry: YES!!! HEHEHEHEHE");
+            System.out.println("Harry: As a reward I will give my Magic Bracelet");
+            System.out.println("Harry: It increases your power by 3");
+            System.out.println("Harry: hehehe");
+            System.out.println();
+        }
     }
 
     public void harryWrong(){
-        System.out.println();
-        System.out.println("Harry: WRONG!!! HEHEHEHE");
-        System.out.println();
+        if(this.getName().equals("Harry")){
+            System.out.println();
+            System.out.println("Harry: WRONG!!! HEHEHEHE");
+            System.out.println();
+        }
     }
 }
