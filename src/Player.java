@@ -143,4 +143,15 @@ public class Player {
     public Room goBack(){
         return history.pop();
     }
+
+    public Room lookBack(){
+        return history.peek();
+    }
+
+    public boolean hasKey(Item item) {
+        for (Item i : items) {
+            if (i.equals(item)) return true;
+        }
+        return false;
+    }
 }

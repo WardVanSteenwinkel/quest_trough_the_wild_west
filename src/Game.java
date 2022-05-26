@@ -36,11 +36,18 @@ public class Game {
      */
     private void createRooms() {
         Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, UnderWater;
-        Item gun, gun2, magicCookie;
+        Item gun, gun2, magicCookie, waterBottle, oxygenMask;
+
+        // create the items
+        gun = new Item("gun", "grossen blaffer", 9);
+        gun2 = new Item("gun2", "blaffer twei", 3);
+        magicCookie = new Edible("magicCookie", "your max load capacity will double if you eat this.", 1, 1);
+        waterBottle = new Item("waterBottle", "this item is ideal for surviving in hot places", 2);
+        oxygenMask = new Item("oxygenMask", "this item lets you breath underwater", 5);
 
         // create the rooms
         LosAngeles = new Room("are in Los Angeles. The largest city in the West.");
-        DeathValley = new Room("are in Death Valley, one of the hottest places on earth.");
+        DeathValley = new SpecialRoom("are in Death Valley, one of the hottest places on earth.", waterBottle);
         MexicanBorder = new Room("are at the Mexican Border.");
         Vancouver = new Room("are in Vancouver.");
         PacificRoute = new Room("are on the Pacific Route.");
@@ -48,12 +55,7 @@ public class Game {
         GhostTown = new Room("are in a GhostTown.");
         LA_Beach = new Room("are at LA Beach.");
         Vancouver_Beach = new Room("are at Vancouver Beach.");
-        UnderWater = new Room("are underwater.");
-
-        // create the items
-        gun = new Item("gun", "grossen blaffer", 9);
-        gun2 = new Item("gun2", "blaffer twei", 3);
-        magicCookie = new Edible("magicCookie", "your max load capacity will double if you eat this.", 1, 1);
+        UnderWater = new SpecialRoom("are underwater.", oxygenMask);
 
 
         // initialise room exits
@@ -80,6 +82,9 @@ public class Game {
         DeathValley.addItem(gun);
         DeathValley.addItem(gun2);
         PacificRoute.addItem(magicCookie);
+        Vancouver_Beach.addItem(waterBottle);
+        MexicanBorder.addItem(oxygenMask);
+
 
         this.player = new Player("player", LosAngeles);
     }
@@ -261,8 +266,19 @@ public class Game {
         Room nextRoom = player.getCurrentRoom().getExit(direction);
 
         if (nextRoom == null) {
-            System.out.println("There is no door!");
-        } else {
+            System.out.println("There is no room here!");
+        }else if(nextRoom instanceof SpecialRoom){
+            SpecialRoom lockedRoom = (SpecialRoom) nextRoom;
+            Item key = lockedRoom.getKey();
+            if(player.hasKey(key)){
+                System.out.println("You have a " + key.getName() + "!");
+                player.setCurrentRoom(nextRoom);
+                player.addRoomToStack(nextRoom);
+                printLocationInfo();
+            }else{
+                System.out.println("You need a " + key.getName() + " to enter.");
+            }
+        }else {
             player.setCurrentRoom(nextRoom);
             player.addRoomToStack(nextRoom);
             printLocationInfo();
@@ -312,6 +328,10 @@ public class Game {
         if(player.stackEmpty()){
             System.out.println("You are at the beginning");
         }else{
+//            if(player.getCurrentRoom().equals(player.lookBack())){
+//                player.setCurrentRoom(player.goBack());
+//                back();
+//            }
             player.setCurrentRoom(player.goBack());
             printLocationInfo();
         }
