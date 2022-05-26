@@ -154,7 +154,7 @@ public class Game {
         System.out.print("> ");
         String playerPower = scanner.nextLine();
         if(playerPower.equals("easy")){
-            player.setPower(10);
+            player.setPower(50);
             player.setHealth(100);
         }else if(playerPower.equals("medium")){
             player.setPower(5);
@@ -427,7 +427,7 @@ public class Game {
                 System.out.println(pp.getName() + " " + df.format(ppHealth) + " health");
                 System.out.println("--------------------------------");
                 if(ppHealth <= 0){
-                    System.out.println("You defeated " + pp.getName() + " !!!");
+                    return true;
                 }else{
                     playerHealth -= ppAttack;
                     System.out.println("--------------------------------");
@@ -458,9 +458,20 @@ public class Game {
         if(answer.equals("yes")){
             if(fight((PowerPerson) p)){
                 System.out.println("You defeated " + p.getName() + "!!!");
+                System.out.println("The rest off the gang fled...");
+                System.out.println("...");
+                if(player.getGender().equals("male")){
+                    System.out.println("You saved Lauren!!!");
+                }else{
+                    System.out.println("You saved William!!!");
+                }
+                System.out.println("THE END!");
+                System.out.println("Made by Ward Van Steenwinkel");
+                System.out.println();
+                System.out.println("Press to end game: (quit)");
             }else{
                 System.out.println("You lost");
-
+                System.out.println("Press to end game: (quit)");
             }
         }else if(answer.equals("no")){
             System.out.println("??");

@@ -32,4 +32,5 @@ public class PowerPerson extends Person{
             System.out.print("> ");
         }
     }
+
 }
