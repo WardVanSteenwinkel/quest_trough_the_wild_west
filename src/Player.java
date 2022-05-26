@@ -96,6 +96,10 @@ public class Player {
             for (Item item : items) {
                 if (item.getName().equals(itemName)) {
                     if (items.remove(item)) {
+                        if(item instanceof PowerItem){
+                            power -= ((PowerItem) item).getPower();
+                            System.out.println("Power decreased to " + power);
+                        }
                         currentRoom.addItem(item);
                         return true;
                     }

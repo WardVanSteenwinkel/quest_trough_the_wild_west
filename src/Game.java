@@ -35,29 +35,30 @@ public class Game {
      * Create all the rooms and link their exits together.
      */
     private void createRooms() {
-        Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, UnderWater;
-        Item gun, gun2, magicCookie, waterBottle, oxygenMask, magicBracelet;
+        Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest;
+        Item gun, magicCookie, waterBottle, oxygenMask, magicBracelet;
         Person harry;
 
         // create the items
-        gun = new Item("gun", "grossen blaffer", 9);
-        gun2 = new Item("gun2", "blaffer twei", 3);
+        gun = new PowerItem("gun", "this is a powerfun handgun", 3, 2);
         magicCookie = new Edible("magicCookie", "your max load capacity will double if you eat this.", 1);
         waterBottle = new Item("waterBottle", "this item is ideal for surviving in hot places", 2);
         oxygenMask = new Item("oxygenMask", "this item lets you breath underwater", 5);
         magicBracelet = new PowerItem("magicBracelet", "this bracelet increases your power", 0, 3);
 
         // create the rooms
-        LosAngeles = new Room("are in Los Angeles. The largest city in the West.");
-        DeathValley = new SpecialRoom("are in Death Valley, one of the hottest places on earth.", waterBottle);
-        MexicanBorder = new Room("are at the Mexican Border.");
-        Vancouver = new Room("are in Vancouver.");
-        PacificRoute = new Room("are on the Pacific Route.");
-        MountStHelens = new Room("are on top of Mount St. Helens.");
-        GhostTown = new Room("are in a GhostTown.");
-        LA_Beach = new Room("are at LA Beach.");
-        Vancouver_Beach = new Room("are at Vancouver Beach.");
-        UnderWater = new SpecialRoom("are underwater.", oxygenMask);
+        LosAngeles = new Room("are in Los Angeles. The largest city in the West");
+        DeathValley = new SpecialRoom("are in Death Valley, one of the hottest places on earth", waterBottle);
+        MexicanBorder = new Room("are at the Mexican Border");
+        Vancouver = new Room("are in Vancouver");
+        PacificRoute = new Room("are on the Pacific Route");
+        MountStHelens = new Room("are on top of Mount St. Helens, an ancient Vulcano");
+        GhostTown = new Room("are in a GhostTown");
+        LA_Beach = new Room("are at LA Beach");
+        Vancouver_Beach = new Room("are at Vancouver Beach");
+        LA_UnderWater = new SpecialRoom("are underwater", oxygenMask);
+        VANCOUVER_UnderWater = new SpecialRoom("are underwater", oxygenMask);
+        Forest = new Room("are in the forest. You can smell the fresh air from the trees");
 
 
         // initialise room exits
@@ -69,24 +70,28 @@ public class Game {
         DeathValley.setExit("south", GhostTown);
         DeathValley.setExit("west", LosAngeles);
         MexicanBorder.setExit("north", LosAngeles);
-        LA_Beach.setExit("down", UnderWater);
+        LA_Beach.setExit("down", LA_UnderWater);
         LA_Beach.setExit("east", LosAngeles);
-        UnderWater.setExit("up", LA_Beach);
+        LA_UnderWater.setExit("up", LA_Beach);
+        LA_UnderWater.setExit("north", VANCOUVER_UnderWater);
         PacificRoute.setExit("south", LosAngeles);
         PacificRoute.setExit("north", Vancouver);
         Vancouver.setExit("south", PacificRoute);
         Vancouver.setExit("west", Vancouver_Beach);
         Vancouver.setExit("up", MountStHelens);
+        Vancouver.setExit("east", Forest);
         Vancouver_Beach.setExit("east", Vancouver);
         MountStHelens.setExit("down", Vancouver);
+        VANCOUVER_UnderWater.setExit("up", Vancouver_Beach);
+        VANCOUVER_UnderWater.setExit("south", LA_UnderWater);
+        Forest.setExit("west", Vancouver);
 
         //create persons
         harry = new Person("Harry");
         harry.addItem(magicBracelet);
 
         //initialise items and persons
-        DeathValley.addItem(gun);
-        DeathValley.addItem(gun2);
+        LA_UnderWater.addItem(gun);
         PacificRoute.addItem(magicCookie);
         Vancouver_Beach.addItem(waterBottle);
         MexicanBorder.addItem(oxygenMask);
@@ -147,7 +152,7 @@ public class Game {
         if(playerGenderLower.equals("male") || playerGenderLower.equals("female")){
             player.setGender(playerGender);
         }else {
-            System.out.println("I don't understand. Please enter your gender: (male/female)"); //bug!
+            player.setGender("male");
         }
         if(player.hasGender()){
             System.out.println();
@@ -278,7 +283,7 @@ public class Game {
         if(player.hasItem(edible)){
             if(player.eat(edible)){
                 player.setMaxWeight(15);
-                System.out.println("Now you can carry " + player.getMaxWeight() + "kg");
+                System.out.println("Your carry load has increased to " + player.getMaxWeight() + " kg!");
             }else{
                 System.out.println("This is not eatable.");
             }
