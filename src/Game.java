@@ -36,14 +36,16 @@ public class Game {
      */
     private void createRooms() {
         Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, UnderWater;
-        Item gun, gun2, magicCookie, waterBottle, oxygenMask;
+        Item gun, gun2, magicCookie, waterBottle, oxygenMask, magicBracelet;
+        Person harry;
 
         // create the items
         gun = new Item("gun", "grossen blaffer", 9);
         gun2 = new Item("gun2", "blaffer twei", 3);
-        magicCookie = new Edible("magicCookie", "your max load capacity will double if you eat this.", 1, 1);
+        magicCookie = new Edible("magicCookie", "your max load capacity will double if you eat this.", 1);
         waterBottle = new Item("waterBottle", "this item is ideal for surviving in hot places", 2);
         oxygenMask = new Item("oxygenMask", "this item lets you breath underwater", 5);
+        magicBracelet = new PowerItem("magicBracelet", "this bracelet increases your power", 0, 3);
 
         // create the rooms
         LosAngeles = new Room("are in Los Angeles. The largest city in the West.");
@@ -78,12 +80,18 @@ public class Game {
         Vancouver_Beach.setExit("east", Vancouver);
         MountStHelens.setExit("down", Vancouver);
 
-        //initialise items
+        //create persons
+        harry = new Person("Harry", PacificRoute);
+        harry.addItem(magicBracelet);
+
+        //initialise items and persons
         DeathValley.addItem(gun);
         DeathValley.addItem(gun2);
         PacificRoute.addItem(magicCookie);
         Vancouver_Beach.addItem(waterBottle);
         MexicanBorder.addItem(oxygenMask);
+        PacificRoute.addPerson(harry);
+
 
 
         this.player = new Player("player", LosAngeles);
@@ -120,6 +128,17 @@ public class Game {
         Scanner scanner = new Scanner(System.in);
         String playerName = scanner.nextLine();
         player.setName(playerName);
+        System.out.println();
+        System.out.println("Please select your difficulty level: (easy/medium/hard)");
+        System.out.print("> ");
+        String playerPower = scanner.nextLine();
+        if(playerPower.equals("easy")){
+            player.setPower(10);
+        }else if(playerPower.equals("medium")){
+            player.setPower(5);
+        }else if(playerPower.equals("hard")){
+            player.setPower(0);
+        }
         System.out.println();
         System.out.println("Please enter your gender: (male/female)");
         System.out.print("> ");
@@ -159,8 +178,28 @@ public class Game {
     }
 
     private void printLocationInfo() {
-        System.out.println(player.getCurrentRoom().getLongDescription());
+        Room r = player.getCurrentRoom();
+        System.out.println(r.getLongDescription());
         System.out.println(player.getLongDescription());
+        if(r.hasPerson()){
+            Person p = r.getPerson();
+            p.generateText();
+            Scanner scanner = new Scanner(System.in);
+            String answer = scanner.nextLine();
+            if(answer.equals("yes")){
+                p.harryRiddle();
+                String answerHarry = scanner.nextLine();
+                String answerLower = answerHarry.toLowerCase();
+                if(answerLower.equals("president") || answerLower.equals("the president")){
+                    p.harryAnswer();
+
+                }else{
+                    p.harryWrong();
+                }
+            }
+                System.out.println(r.getLongDescription());
+                System.out.println(player.getLongDescription());
+        }
         System.out.println();
     }
 
@@ -320,7 +359,7 @@ public class Game {
     }
 
     private void stats(){
-        System.out.println("Name: " + player.getName() + "; Gender: " + player.getGender() + "; Carry-load: " + player.getMaxWeight());
+        System.out.println("Name: " + player.getName() + "; Power: " + player.getPower() + "; Carry-load: " + player.getMaxWeight());
     }
 
 

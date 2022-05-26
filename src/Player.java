@@ -8,6 +8,7 @@ public class Player {
     private ArrayList<Item> items;
     private double maxWeight = 10;
     private Stack<Room> history;
+    private int power;
 
     public Player(String name, Room currentRoom) {
         this.name = name;
@@ -31,6 +32,14 @@ public class Player {
 
     public double getMaxWeight() {
         return maxWeight;
+    }
+
+    public int getPower() {
+        return power;
+    }
+
+    public void setPower(int power) {
+        this.power = power;
     }
 
     public void setMaxWeight(double maxWeight) {
@@ -66,7 +75,9 @@ public class Player {
 
     public boolean take(String itemName) {
         Item i = currentRoom.getItem(itemName);
-        if (currentRoom.hasItem(itemName) && playerWeightChecker(i)) {
+        if(i instanceof PowerItem){
+            power += ((PowerItem) i).getPower();
+        }else if (currentRoom.hasItem(itemName) && playerWeightChecker(i)) {
             items.add(i);
             currentRoom.removeItem(i);
             return true;
@@ -154,4 +165,5 @@ public class Player {
         }
         return false;
     }
+
 }

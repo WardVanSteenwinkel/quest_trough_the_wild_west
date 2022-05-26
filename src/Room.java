@@ -20,6 +20,7 @@ public class Room {
     private String description;
     private HashMap<String, Room> exits;
     private ArrayList<Item> items;
+    private ArrayList<Person> persons;
 
     /**
      * Create a room described "description". Initially, it has
@@ -32,6 +33,7 @@ public class Room {
         this.description = description;
         exits = new HashMap<>();
         items = new ArrayList<>();
+        persons = new ArrayList<>();
     }
 
     public Room getExit(String direction) {
@@ -40,6 +42,15 @@ public class Room {
 
     public void addItem(Item item) {
         items.add(item);
+    }
+
+    public void addPerson(Person person){persons.add(person);}
+
+    public boolean hasPerson(){
+        if(!persons.isEmpty()){
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -97,6 +108,10 @@ public class Room {
             }
         }
         return null;
+    }
+
+    public Person getPerson(){
+        return persons.get(0);
     }
 
     public String getLongDescription() {
