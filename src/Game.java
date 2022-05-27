@@ -40,20 +40,20 @@ public class Game {
 
         // create the items
         gun = new PowerItem("gun", "this is a powerfun handgun", 3, 2);
-        magicCookie = new Edible("magicCookie", "your max load capacity will double if you eat this.", 1, 0);
+        magicCookie = new Edible("magicCookie", "your max load capacity will increase if you eat this.", 1, 0);
         waterBottle = new Item("waterBottle", "this item is ideal for surviving in hot places", 2);
         oxygenMask = new Item("oxygenMask", "this item lets you breath underwater", 5);
         magicBracelet = new PowerItem("magicBracelet", "this bracelet increases your power", 0, 3);
-        berry = new Edible("berry", "this item increases your health", 1, 10);
+        berry = new Edible("berry", "this item increases your health if you eat it", 1, 10);
         bigGun = new PowerItem("bigGun", "a powerfull gun", 7, 7);
         hikingSticks = new Item("hikingSticks", "ideal for climbing up mountains", 4);
         map = new Item("map", "for finding the route", 0);
-        superBerry = new Edible("superBerry", "this item increases your health", 3, 30);
+        superBerry = new Edible("superBerry", "this item increases your health if you eat it", 3, 30);
 
         Random r = new Random();
         magicBerry = new Edible("magicBerry", "this is a mysterious berry", 1, r.nextInt(15 + 15) - 15);
-        berry2 = new Edible("berry", "strange berry...", 1, -20);
-        berry3 = new Edible("berry", "this item increases your health", 1, 10);
+        berry2 = new Edible("berry", "strange berry... eat it?", 1, -20);
+        berry3 = new Edible("berry", "this item increases your health if you eat it", 1, 10);
 
 
 
@@ -61,9 +61,9 @@ public class Game {
         LosAngeles = new Room("are in Los Angeles. The largest city in the West");
         DeathValley = new SpecialRoom("are in Death Valley, one of the hottest places on earth", waterBottle);
         MexicanBorder = new Room("are at the Mexican Border");
-        Vancouver = new Room("are in Vancouver");
+        Vancouver = new Room("are in Vancouver. The biggest city in the Pacific NorthWest");
         PacificRoute = new Room("are on the Pacific Route");
-        MountStHelens = new SpecialRoom("are on top of Mount St. Helens, an ancient Vulcano", hikingSticks);
+        MountStHelens = new SpecialRoom("are on top of Mount St. Helens, an ancient Volcano", hikingSticks);
         GhostTown = new SpecialRoom("are in a GhostTown, this place looks deserted...", map);
         LA_Beach = new Room("are at LA Beach");
         Vancouver_Beach = new Room("are at Vancouver Beach");
@@ -110,9 +110,9 @@ public class Game {
 
         //create persons
         harry = new Person("Harry");
-        harry.addItem(magicBracelet);
+        harry.addItem(magicCookie);
         johnny = new PowerPerson("Johnny", 25, 100);
-        bear = new PowerPerson("bear", 10, 40);
+        bear = new PowerPerson("bear", 15, 40);
         shark = new PowerPerson("shark", 10, 30);
         wolf1 = new PowerPerson("wolf", 6, 30);
         wolf2 = new PowerPerson("wolf", 7, 30);
@@ -129,12 +129,12 @@ public class Game {
         GhostTown.addPerson(johnny);
         Forest.addItem(berry);
         VANCOUVER_UnderWater.addPerson(shark);
-        LosAngeles.addItem(hikingSticks);
+        southForest.addItem(hikingSticks);
         MountStHelens.addPerson(magician);
         DeathValley.addItem(superBerry);
 
         List<Room> rooms = new ArrayList<>(Arrays.asList(LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest, eastForest, northForest, southForest));
-        Item[] items = {bigGun, magicBerry, magicCookie, gun, berry2, berry3};
+        Item[] items = {bigGun, magicBerry, magicBracelet, gun, berry2, berry3};
         for (Item i : items){
             boolean placed = false;
             while(!placed){
@@ -254,6 +254,7 @@ public class Game {
     }
 
     private void printLocationInfo() {
+        System.out.println("------------------------------------------------------------------------------------------------------------------");
         Room r = player.getCurrentRoom();
         System.out.println(r.getLongDescription());
         System.out.println(player.getLongDescription());
@@ -456,8 +457,8 @@ public class Game {
                 String answerLower = answerHarry.toLowerCase();
                 if(answerLower.equals("president") || answerLower.equals("the president")){
                     p.harryAnswer();
-                    r.addItem(p.dropItem("magicBracelet"));
-                    player.take("magicBracelet");
+                    r.addItem(p.dropItem("magicCookie"));
+                    player.take("magicCookie");
                     r.removePerson(p);
                 }else{
                     p.harryWrong();
@@ -484,11 +485,12 @@ public class Game {
             p.magicianRiddle();
             String answerRiddle = scanner.nextLine();
             String aLower = answerRiddle.toLowerCase();
-            if(aLower.equals("vulcano")){
+            if(aLower.equals("volcano") || aLower.equals("vulkaan")){
                 p.magicianRidlleAnswer();
-                playerPower += 8;
-                System.out.println("Your power increased +8");
+                playerPower += 5;
+                System.out.println("Your power increased +5");
                 stats();
+                r.addItem(p.dropItem("map"));
                 r.removePerson(p);
             }else{
                 System.out.println("Wrong hahaha!");
@@ -605,8 +607,9 @@ public class Game {
             if(i instanceof PowerItem){
                 PowerItem pi = (PowerItem) i;
                 System.out.println("name: " + i.getName() + "; description: " + i.getDescription() + "; power: " + pi.getPower());
+            }else if(i instanceof Item){
+                System.out.println("name: " + i.getName() + "; description: " + i.getDescription());
             }
-            System.out.println("name: " + i.getName() + "; description: " + i.getDescription());
         }
     }
 

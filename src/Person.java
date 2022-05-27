@@ -78,7 +78,7 @@ public class Person {
         if(this.getName().equals("Harry")){
             System.out.println();
             System.out.println("Harry: YES!!! HEHEHEHEHE");
-            System.out.println("Harry: As a reward I will give my Magic Bracelet");
+            System.out.println("Harry: As a reward I will give my Magic Cookie");
             System.out.println("Harry: It increases your power by 3");
             System.out.println("Harry: hehehe");
             System.out.println();
