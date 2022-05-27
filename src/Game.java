@@ -36,7 +36,7 @@ public class Game {
     private void createRooms() {
         Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest;
         Item gun, magicCookie, waterBottle, oxygenMask, magicBracelet, berry, magicBerry, bigGun;
-        Person harry, johnny, bear;
+        Person harry, johnny, bear, shark, wolf1, wolf2;
 
         // create the items
         gun = new PowerItem("gun", "this is a powerfun handgun", 3, 2);
@@ -97,6 +97,9 @@ public class Game {
         harry.addItem(magicBracelet);
         johnny = new PowerPerson("Johnny", 15, 100);
         bear = new PowerPerson("bear", 10, 40);
+        shark = new PowerPerson("shark", 8, 30);
+        wolf1 = new PowerPerson("wolf", 6, 30);
+        wolf2 = new PowerPerson("wolf", 6, 30);
 
 
         //initialise items and persons
@@ -106,6 +109,7 @@ public class Game {
         MexicanBorder.addPerson(bear);
         GhostTown.addPerson(johnny);
         Forest.addItem(berry);
+        VANCOUVER_UnderWater.addPerson(shark);
 
         List<Room> rooms = new ArrayList<>(Arrays.asList(LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest));
         Item[] items = {bigGun, magicBerry, magicCookie, gun};
@@ -116,6 +120,19 @@ public class Game {
                 Room randomRoom = rooms.get(random);
                 if (!randomRoom.hasItems()){
                     randomRoom.addItem(i);
+                    placed = true;
+                }
+            }
+        }
+        List<Room> rooms2 = new ArrayList<>(Arrays.asList(DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, LA_Beach, Vancouver_Beach, Forest));
+        Person[] animals = {wolf1, wolf2};
+        for (Person p : animals){
+            boolean placed = false;
+            while(!placed){
+                int random = r.nextInt(rooms2.size());
+                Room randomRoom = rooms2.get(random);
+                if (!randomRoom.hasPerson()){
+                    randomRoom.addPerson(p);
                     placed = true;
                 }
             }
@@ -176,13 +193,13 @@ public class Game {
             player.setPower(10);
             player.setHealth(100);
         }else if(playerPower.equals("medium")){
-            player.setPower(5);
+            player.setPower(7);
             player.setHealth(80);
         }else if(playerPower.equals("hard")){
-            player.setPower(0);
+            player.setPower(5);
             player.setHealth(60);
         }else{
-            player.setPower(5);
+            player.setPower(7);
             player.setHealth(80);
         }
         System.out.println();
@@ -235,8 +252,8 @@ public class Game {
             if(p.getName().equals("Johnny")){
                 personJohnny();
             }
-            if(p.getName().equals("bear")){
-                bear();
+            if(p.getName().equals("bear") || p.getName().equals("shark") || p.getName().equals("wolf")){
+                animal();
             }
         }
         System.out.println();
@@ -430,18 +447,29 @@ public class Game {
         }
     }
 
-    private void bear(){
+    private void animal(){
+        int playerHealth = player.getHealth();
+        int playerPower = player.getPower();
         Room r = player.getCurrentRoom();
         Person p = r.getPerson();
-        ((PowerPerson) p).bearText();
+        ((PowerPerson) p).animalText();
+        PowerPerson pp = (PowerPerson) p;
         Scanner scanner = new Scanner(System.in);
         String answer = scanner.nextLine();
-        if(answer.equals("continue")){
-            if(fight((PowerPerson) p)){
-                System.out.println("won");
+        if(answer.equals("fight")){
+            if(fight(pp)){
+                System.out.println("You defeated the " + p.getName() + "!");
+                System.out.println("You gain " + (pp.getHealth())/2 + " health and " + (pp.getPower()/2) + " power!");
+                player.setHealth(playerHealth + (pp.getHealth())/2);
+                player.setPower(playerPower + (pp.getPower()/2));
+                stats();
+                r.removePerson(pp);
             }else{
-                System.out.println("lost");
+                System.out.println("You died...");
+                System.out.println("Press to end game: (quit)");
             }
+        }else if(answer.equals("run")){
+            System.out.println(pp.getName() + " left...");
         }
     }
 
@@ -494,6 +522,7 @@ public class Game {
         String answer = scanner.nextLine();
         if(answer.equals("yes")){
             if(fight((PowerPerson) p)){
+                r.removePerson(p);
                 System.out.println("You defeated " + p.getName() + "!!!");
                 System.out.println("The rest off the gang fled...");
                 System.out.println("...");
@@ -507,7 +536,7 @@ public class Game {
                 System.out.println();
                 System.out.println("Press to end game: (quit)");
             }else{
-                System.out.println("You lost");
+                System.out.println("You died");
                 System.out.println("Press to end game: (quit)");
             }
         }else if(answer.equals("no")){

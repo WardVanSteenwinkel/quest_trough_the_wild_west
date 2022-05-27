@@ -127,4 +127,8 @@ public class Room {
             return true;
         }return false;
     }
+
+    public void removePerson(Person person){
+        persons.remove(person);
+    }
 }

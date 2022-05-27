@@ -33,12 +33,10 @@ public class PowerPerson extends Person{
         }
     }
 
-    public void bearText(){
-        if(this.getName().equals("bear")){
+    public void animalText(){
             System.out.println();
-            System.out.println("A wild bear appears... (continue)");
+            System.out.println("A wild animal appears... (fight/run)");
             System.out.println();
             System.out.print("> ");
-        }
     }
 }
