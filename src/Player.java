@@ -6,7 +6,7 @@ public class Player {
     private String gender;
     private Room currentRoom;
     private ArrayList<Item> items;
-    private double maxWeight = 10;
+    private double maxWeight = 12;
     private Stack<Room> history;
     private int power;
     private int health;
@@ -160,7 +160,7 @@ public class Player {
                             maxWeight += 5;
                             System.out.println("Load capacity has increased by 5");
                         }else{
-                            health -= e.getHealth();
+                            health += e.getHealth();
                             System.out.println("Health decreased by " + e.getHealth());
                         }
                         items.remove(i);

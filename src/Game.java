@@ -34,9 +34,9 @@ public class Game {
      * Create all the rooms and link their exits together.
      */
     private void createRooms() {
-        Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest;
-        Item gun, magicCookie, waterBottle, oxygenMask, magicBracelet, berry, magicBerry, bigGun;
-        Person harry, johnny, bear, shark, wolf1, wolf2;
+        Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest, northForest, eastForest, southForest, portal;
+        Item gun, magicCookie, waterBottle, oxygenMask, magicBracelet, berry, magicBerry, bigGun, hikingSticks, berry2, berry3, map, superBerry;
+        Person harry, johnny, bear, shark, wolf1, wolf2, wolf3, wolf4, magician;
 
         // create the items
         gun = new PowerItem("gun", "this is a powerfun handgun", 3, 2);
@@ -46,9 +46,14 @@ public class Game {
         magicBracelet = new PowerItem("magicBracelet", "this bracelet increases your power", 0, 3);
         berry = new Edible("berry", "this item increases your health", 1, 10);
         bigGun = new PowerItem("bigGun", "a powerfull gun", 7, 7);
+        hikingSticks = new Item("hikingSticks", "ideal for climbing up mountains", 4);
+        map = new Item("map", "for finding the route", 0);
+        superBerry = new Edible("superBerry", "this item increases your health", 3, 30);
 
         Random r = new Random();
         magicBerry = new Edible("magicBerry", "this is a mysterious berry", 1, r.nextInt(15 + 15) - 15);
+        berry2 = new Edible("berry", "strange berry...", 1, -20);
+        berry3 = new Edible("berry", "this item increases your health", 1, 10);
 
 
 
@@ -58,13 +63,17 @@ public class Game {
         MexicanBorder = new Room("are at the Mexican Border");
         Vancouver = new Room("are in Vancouver");
         PacificRoute = new Room("are on the Pacific Route");
-        MountStHelens = new Room("are on top of Mount St. Helens, an ancient Vulcano");
-        GhostTown = new Room("are in a GhostTown, this place looks deserted...");
+        MountStHelens = new SpecialRoom("are on top of Mount St. Helens, an ancient Vulcano", hikingSticks);
+        GhostTown = new SpecialRoom("are in a GhostTown, this place looks deserted...", map);
         LA_Beach = new Room("are at LA Beach");
         Vancouver_Beach = new Room("are at Vancouver Beach");
         LA_UnderWater = new SpecialRoom("are underwater", oxygenMask);
         VANCOUVER_UnderWater = new SpecialRoom("are underwater", oxygenMask);
         Forest = new Room("are in the forest. You can smell the fresh air from the trees");
+        northForest= new Room("are in the forest. You can smell the fresh air from the trees");
+        eastForest= new Room("are in the forest. You can smell the fresh air from the trees");
+        southForest= new Room("are in the forest. You can smell the fresh air from the trees");
+        portal = new Room("portal");
 
 
         // initialise room exits
@@ -88,31 +97,46 @@ public class Game {
         Vancouver.setExit("east", Forest);
         Vancouver_Beach.setExit("east", Vancouver);
         MountStHelens.setExit("down", Vancouver);
+        MountStHelens.setExit("in", portal);
         VANCOUVER_UnderWater.setExit("up", Vancouver_Beach);
         VANCOUVER_UnderWater.setExit("south", LA_UnderWater);
         Forest.setExit("west", Vancouver);
+        Forest.setExit("north", northForest);
+        Forest.setExit("east", eastForest);
+        Forest.setExit("south", southForest);
+        northForest.setExit("south", Forest);
+        eastForest.setExit("west", Forest);
+        southForest.setExit("north", Forest);
+        portal.setExit("out", MountStHelens);
+
 
         //create persons
         harry = new Person("Harry");
         harry.addItem(magicBracelet);
-        johnny = new PowerPerson("Johnny", 15, 100);
+        johnny = new PowerPerson("Johnny", 20, 100);
         bear = new PowerPerson("bear", 10, 40);
         shark = new PowerPerson("shark", 8, 30);
         wolf1 = new PowerPerson("wolf", 6, 30);
         wolf2 = new PowerPerson("wolf", 6, 30);
-
+        wolf3 = new PowerPerson("wolf", 6, 30);
+        wolf4 = new PowerPerson("wolf", 6, 30);
+        magician = new Person("magician");
+        magician.addItem(map);
 
         //initialise items and persons
-        LosAngeles.addItem(waterBottle);
+        Vancouver_Beach.addItem(waterBottle);
         MexicanBorder.addItem(oxygenMask);
         PacificRoute.addPerson(harry);
         MexicanBorder.addPerson(bear);
         GhostTown.addPerson(johnny);
         Forest.addItem(berry);
         VANCOUVER_UnderWater.addPerson(shark);
+        LosAngeles.addItem(hikingSticks);
+        MountStHelens.addPerson(magician);
+        DeathValley.addItem(superBerry);
 
-        List<Room> rooms = new ArrayList<>(Arrays.asList(LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest));
-        Item[] items = {bigGun, magicBerry, magicCookie, gun};
+        List<Room> rooms = new ArrayList<>(Arrays.asList(LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest, eastForest, northForest, southForest));
+        Item[] items = {bigGun, magicBerry, magicCookie, gun, berry2, berry3};
         for (Item i : items){
             boolean placed = false;
             while(!placed){
@@ -124,8 +148,8 @@ public class Game {
                 }
             }
         }
-        List<Room> rooms2 = new ArrayList<>(Arrays.asList(DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, LA_Beach, Vancouver_Beach, Forest));
-        Person[] animals = {wolf1, wolf2};
+        List<Room> rooms2 = new ArrayList<>(Arrays.asList(DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, LA_Beach, Vancouver_Beach, Forest, northForest, eastForest, southForest));
+        Person[] animals = {wolf1, wolf2, wolf3, wolf4};
         for (Person p : animals){
             boolean placed = false;
             while(!placed){
@@ -254,6 +278,9 @@ public class Game {
             }
             if(p.getName().equals("bear") || p.getName().equals("shark") || p.getName().equals("wolf")){
                 animal();
+            }
+            if(p.getName().equals("magician")){
+                magician();
             }
         }
         System.out.println();
@@ -439,12 +466,46 @@ public class Game {
                     p.harryAnswer();
                     r.addItem(p.dropItem("magicBracelet"));
                     player.take("magicBracelet");
+                    r.removePerson(p);
                 }else{
                     p.harryWrong();
                 }
             }
             look();
         }
+    }
+
+    private void magician(){
+        int playerPower = player.getPower();
+        Room r = player.getCurrentRoom();
+        Person p = r.getPerson();
+        p.magicianText();
+        Scanner scanner = new Scanner(System.in);
+        String answer = scanner.nextLine();
+        if(answer.equals("lover")){
+            p.magicianLover();
+            r.addItem(p.dropItem("map"));
+            player.take("map");
+            System.out.println("You have received a map!");
+            r.removePerson(p);
+        }else if(answer.equals("power")){
+            p.magicianRiddle();
+            String answerRiddle = scanner.nextLine();
+            String aLower = answerRiddle.toLowerCase();
+            if(aLower.equals("vulcano")){
+                p.magicianRidlleAnswer();
+                playerPower += 8;
+                System.out.println("Your power increased +8");
+                stats();
+                r.removePerson(p);
+            }else{
+                System.out.println("Wrong hahaha!");
+            }
+        }else if(answer.equals("health")){
+            System.out.println("Is it health you looking for?");
+            System.out.println("Take a look in the forests, you can often find berries there.");
+        }
+        look();
     }
 
     private void animal(){
@@ -540,7 +601,9 @@ public class Game {
                 System.out.println("Press to end game: (quit)");
             }
         }else if(answer.equals("no")){
-            System.out.println("??");
+            System.out.println("Johnny: Go Away!");
+            back();
+            back();
         }
     }
 

@@ -36,5 +36,4 @@ public class Item {
     public String getLongDescription() {
         return this.name + " (" + this.description + ") with weight of " + this.weight + "kg";
     }
-
 }
