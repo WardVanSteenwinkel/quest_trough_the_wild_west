@@ -35,7 +35,7 @@ public class Game {
      */
     private void createRooms() {
         Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest;
-        Item gun, magicCookie, waterBottle, oxygenMask, magicBracelet, berry;
+        Item gun, magicCookie, waterBottle, oxygenMask, magicBracelet, berry, magicBerry, bigGun;
         Person harry, johnny;
 
         // create the items
@@ -45,6 +45,12 @@ public class Game {
         oxygenMask = new Item("oxygenMask", "this item lets you breath underwater", 5);
         magicBracelet = new PowerItem("magicBracelet", "this bracelet increases your power", 0, 3);
         berry = new Edible("berry", "this item increases your health", 1, 10);
+        bigGun = new PowerItem("bigGun", "a powerfull gun", 7, 7);
+
+        Random r = new Random();
+        magicBerry = new Edible("magicBerry", "this is a mysterious berry", 1, r.nextInt(15 + 15) - 15);
+
+
 
         // create the rooms
         LosAngeles = new Room("are in Los Angeles. The largest city in the West");
@@ -93,14 +99,25 @@ public class Game {
 
 
         //initialise items and persons
-        VANCOUVER_UnderWater.addItem(gun);
-        PacificRoute.addItem(magicCookie);
         LosAngeles.addItem(waterBottle);
         MexicanBorder.addItem(oxygenMask);
         PacificRoute.addPerson(harry);
         GhostTown.addPerson(johnny);
         Forest.addItem(berry);
 
+        List<Room> rooms = new ArrayList<>(Arrays.asList(LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest));
+        Item[] items = {bigGun, magicBerry, magicCookie, gun};
+        for (Item i : items){
+            boolean placed = false;
+            while(!placed){
+                int random = r.nextInt(rooms.size());
+                Room randomRoom = rooms.get(random);
+                if (!randomRoom.hasItems()){
+                    randomRoom.addItem(i);
+                    placed = true;
+                }
+            }
+        }
 
         this.player = new Player("player", LosAngeles);
     }

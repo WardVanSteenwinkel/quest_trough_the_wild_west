@@ -121,4 +121,10 @@ public class Room {
     public void removeItem(Item item){
         items.remove(item);
     }
+
+    public boolean hasItems(){
+        if(!items.isEmpty()){
+            return true;
+        }return false;
+    }
 }
