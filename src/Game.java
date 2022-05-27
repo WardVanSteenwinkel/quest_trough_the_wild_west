@@ -154,7 +154,7 @@ public class Game {
         System.out.print("> ");
         String playerPower = scanner.nextLine();
         if(playerPower.equals("easy")){
-            player.setPower(50);
+            player.setPower(10);
             player.setHealth(100);
         }else if(playerPower.equals("medium")){
             player.setPower(5);
