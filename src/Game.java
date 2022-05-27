@@ -34,7 +34,7 @@ public class Game {
      * Create all the rooms and link their exits together.
      */
     private void createRooms() {
-        Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest, northForest, eastForest, southForest, portal;
+        Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest, northForest, eastForest, southForest;
         Item gun, magicCookie, waterBottle, oxygenMask, magicBracelet, berry, magicBerry, bigGun, hikingSticks, berry2, berry3, map, superBerry;
         Person harry, johnny, bear, shark, wolf1, wolf2, wolf3, wolf4, magician;
 
@@ -73,7 +73,6 @@ public class Game {
         northForest= new Room("are in the forest. You can smell the fresh air from the trees");
         eastForest= new Room("are in the forest. You can smell the fresh air from the trees");
         southForest= new Room("are in the forest. You can smell the fresh air from the trees");
-        portal = new Room("portal");
 
 
         // initialise room exits
@@ -96,8 +95,8 @@ public class Game {
         Vancouver.setExit("up", MountStHelens);
         Vancouver.setExit("east", Forest);
         Vancouver_Beach.setExit("east", Vancouver);
+        Vancouver_Beach.setExit("down", VANCOUVER_UnderWater);
         MountStHelens.setExit("down", Vancouver);
-        MountStHelens.setExit("in", portal);
         VANCOUVER_UnderWater.setExit("up", Vancouver_Beach);
         VANCOUVER_UnderWater.setExit("south", LA_UnderWater);
         Forest.setExit("west", Vancouver);
@@ -107,19 +106,18 @@ public class Game {
         northForest.setExit("south", Forest);
         eastForest.setExit("west", Forest);
         southForest.setExit("north", Forest);
-        portal.setExit("out", MountStHelens);
 
 
         //create persons
         harry = new Person("Harry");
         harry.addItem(magicBracelet);
-        johnny = new PowerPerson("Johnny", 20, 100);
+        johnny = new PowerPerson("Johnny", 25, 100);
         bear = new PowerPerson("bear", 10, 40);
-        shark = new PowerPerson("shark", 8, 30);
+        shark = new PowerPerson("shark", 10, 30);
         wolf1 = new PowerPerson("wolf", 6, 30);
-        wolf2 = new PowerPerson("wolf", 6, 30);
+        wolf2 = new PowerPerson("wolf", 7, 30);
         wolf3 = new PowerPerson("wolf", 6, 30);
-        wolf4 = new PowerPerson("wolf", 6, 30);
+        wolf4 = new PowerPerson("wolf", 8, 30);
         magician = new Person("magician");
         magician.addItem(map);
 
@@ -163,7 +161,11 @@ public class Game {
         }
 
         this.player = new Player("player", LosAngeles);
+
+
     }
+
+
 
     /**
      * Main play routine.  Loops until end of play.
@@ -187,20 +189,7 @@ public class Game {
      */
     private void printWelcome() {
         System.out.println();
-        System.out.println("\n" +
-                "░██████╗░██╗░░░██╗███████╗░██████╗████████╗  ████████╗██████╗░░█████╗░██╗░░░██╗░██████╗░██╗░░██╗\n" +
-                "██╔═══██╗██║░░░██║██╔════╝██╔════╝╚══██╔══╝  ╚══██╔══╝██╔══██╗██╔══██╗██║░░░██║██╔════╝░██║░░██║\n" +
-                "██║██╗██║██║░░░██║█████╗░░╚█████╗░░░░██║░░░  ░░░██║░░░██████╔╝██║░░██║██║░░░██║██║░░██╗░███████║\n" +
-                "╚██████╔╝██║░░░██║██╔══╝░░░╚═══██╗░░░██║░░░  ░░░██║░░░██╔══██╗██║░░██║██║░░░██║██║░░╚██╗██╔══██║\n" +
-                "░╚═██╔═╝░╚██████╔╝███████╗██████╔╝░░░██║░░░  ░░░██║░░░██║░░██║╚█████╔╝╚██████╔╝╚██████╔╝██║░░██║\n" +
-                "░░░╚═╝░░░░╚═════╝░╚══════╝╚═════╝░░░░╚═╝░░░  ░░░╚═╝░░░╚═╝░░╚═╝░╚════╝░░╚═════╝░░╚═════╝░╚═╝░░╚═╝\n" +
-                "\n" +
-                "████████╗██╗░░██╗███████╗  ░██╗░░░░░░░██╗███████╗░██████╗████████╗\n" +
-                "╚══██╔══╝██║░░██║██╔════╝  ░██║░░██╗░░██║██╔════╝██╔════╝╚══██╔══╝\n" +
-                "░░░██║░░░███████║█████╗░░  ░╚██╗████╗██╔╝█████╗░░╚█████╗░░░░██║░░░\n" +
-                "░░░██║░░░██╔══██║██╔══╝░░  ░░████╔═████║░██╔══╝░░░╚═══██╗░░░██║░░░\n" +
-                "░░░██║░░░██║░░██║███████╗  ░░╚██╔╝░╚██╔╝░███████╗██████╔╝░░░██║░░░\n" +
-                "░░░╚═╝░░░╚═╝░░╚═╝╚══════╝  ░░░╚═╝░░░╚═╝░░╚══════╝╚═════╝░░░░╚═╝░░░");
+        System.out.println("WELCOME TO QUEST TROUGH THE WEST!");
         System.out.println();
         System.out.println("Quest Trough The West is a text-based adventure game.");
         System.out.println();
@@ -214,17 +203,17 @@ public class Game {
         System.out.print("> ");
         String playerPower = scanner.nextLine();
         if(playerPower.equals("easy")){
-            player.setPower(10);
-            player.setHealth(100);
+            player.setPower(8);
+            player.setHealth(80);
         }else if(playerPower.equals("medium")){
-            player.setPower(7);
-            player.setHealth(80);
-        }else if(playerPower.equals("hard")){
-            player.setPower(5);
+            player.setPower(6);
             player.setHealth(60);
+        }else if(playerPower.equals("hard")){
+            player.setPower(4);
+            player.setHealth(40);
         }else{
-            player.setPower(7);
-            player.setHealth(80);
+            player.setPower(6);
+            player.setHealth(60);
         }
         System.out.println();
         System.out.println("Please enter your gender: (male/female)");
@@ -318,6 +307,9 @@ public class Game {
             case STATS:
                 stats();
                 break;
+//            case ITEMS:
+//                items();
+//                break;
             case GO:
                 goRoom(command);
                 break;
