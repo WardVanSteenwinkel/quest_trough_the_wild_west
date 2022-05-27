@@ -36,7 +36,7 @@ public class Game {
     private void createRooms() {
         Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest;
         Item gun, magicCookie, waterBottle, oxygenMask, magicBracelet, berry, magicBerry, bigGun;
-        Person harry, johnny;
+        Person harry, johnny, bear;
 
         // create the items
         gun = new PowerItem("gun", "this is a powerfun handgun", 3, 2);
@@ -96,12 +96,14 @@ public class Game {
         harry = new Person("Harry");
         harry.addItem(magicBracelet);
         johnny = new PowerPerson("Johnny", 15, 100);
+        bear = new PowerPerson("bear", 10, 40);
 
 
         //initialise items and persons
         LosAngeles.addItem(waterBottle);
         MexicanBorder.addItem(oxygenMask);
         PacificRoute.addPerson(harry);
+        MexicanBorder.addPerson(bear);
         GhostTown.addPerson(johnny);
         Forest.addItem(berry);
 
@@ -232,6 +234,9 @@ public class Game {
             }
             if(p.getName().equals("Johnny")){
                 personJohnny();
+            }
+            if(p.getName().equals("bear")){
+                bear();
             }
         }
         System.out.println();
@@ -425,6 +430,21 @@ public class Game {
         }
     }
 
+    private void bear(){
+        Room r = player.getCurrentRoom();
+        Person p = r.getPerson();
+        ((PowerPerson) p).bearText();
+        Scanner scanner = new Scanner(System.in);
+        String answer = scanner.nextLine();
+        if(answer.equals("continue")){
+            if(fight((PowerPerson) p)){
+                System.out.println("won");
+            }else{
+                System.out.println("lost");
+            }
+        }
+    }
+
     private boolean fight(PowerPerson pp){
         DecimalFormat df = new DecimalFormat("###.#");
         int playerHealth = player.getHealth();
@@ -456,9 +476,6 @@ public class Game {
                     System.out.println("--------------------------------");
 
                 }
-            }
-            if(!answer.equals("f")){
-                personJohnny();
             }
             notDead = (playerHealth > 0 && ppHealth > 0);
         }
