@@ -307,9 +307,9 @@ public class Game {
             case STATS:
                 stats();
                 break;
-//            case ITEMS:
-//                items();
-//                break;
+            case ITEMS:
+                items();
+                break;
             case GO:
                 goRoom(command);
                 break;
@@ -599,7 +599,16 @@ public class Game {
         }
     }
 
-
+    private void items(){
+        ArrayList<Item> items = player.getItems();
+        for(Item i : items){
+            if(i instanceof PowerItem){
+                PowerItem pi = (PowerItem) i;
+                System.out.println("name: " + i.getName() + "; description: " + i.getDescription() + "; power: " + pi.getPower());
+            }
+            System.out.println("name: " + i.getName() + "; description: " + i.getDescription());
+        }
+    }
 
 
     /**

@@ -6,7 +6,7 @@ public class Player {
     private String gender;
     private Room currentRoom;
     private ArrayList<Item> items;
-    private double maxWeight = 12;
+    private double maxWeight = 8;
     private Stack<Room> history;
     private int power;
     private int health;
