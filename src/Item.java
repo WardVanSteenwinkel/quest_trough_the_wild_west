@@ -37,5 +37,4 @@ public class Item {
         return this.name + " (" + this.description + ") with weight of " + this.weight + "kg";
     }
 
-
 }

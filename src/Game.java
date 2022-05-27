@@ -35,15 +35,16 @@ public class Game {
      */
     private void createRooms() {
         Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest;
-        Item gun, magicCookie, waterBottle, oxygenMask, magicBracelet;
-        Person harry, johnny, horse;
+        Item gun, magicCookie, waterBottle, oxygenMask, magicBracelet, berry;
+        Person harry, johnny;
 
         // create the items
         gun = new PowerItem("gun", "this is a powerfun handgun", 3, 2);
-        magicCookie = new Edible("magicCookie", "your max load capacity will double if you eat this.", 1);
+        magicCookie = new Edible("magicCookie", "your max load capacity will double if you eat this.", 1, 0);
         waterBottle = new Item("waterBottle", "this item is ideal for surviving in hot places", 2);
         oxygenMask = new Item("oxygenMask", "this item lets you breath underwater", 5);
         magicBracelet = new PowerItem("magicBracelet", "this bracelet increases your power", 0, 3);
+        berry = new Edible("berry", "this item increases your health", 1, 10);
 
         // create the rooms
         LosAngeles = new Room("are in Los Angeles. The largest city in the West");
@@ -89,7 +90,6 @@ public class Game {
         harry = new Person("Harry");
         harry.addItem(magicBracelet);
         johnny = new PowerPerson("Johnny", 15, 100);
-        horse = new Person("horse");
 
 
         //initialise items and persons
@@ -99,7 +99,7 @@ public class Game {
         MexicanBorder.addItem(oxygenMask);
         PacificRoute.addPerson(harry);
         GhostTown.addPerson(johnny);
-        Vancouver_Beach.addPerson(horse);
+        Forest.addItem(berry);
 
 
         this.player = new Player("player", LosAngeles);
@@ -162,6 +162,9 @@ public class Game {
         }else if(playerPower.equals("hard")){
             player.setPower(0);
             player.setHealth(60);
+        }else{
+            player.setPower(5);
+            player.setHealth(80);
         }
         System.out.println();
         System.out.println("Please enter your gender: (male/female)");
@@ -287,10 +290,10 @@ public class Game {
             System.out.println("Eat what?");
         }
         String edible = command.getSecondWord();
+
         if(player.hasItem(edible)){
             if(player.eat(edible)){
-                player.setMaxWeight(15);
-                System.out.println("Your carry load has increased to " + player.getMaxWeight() + " kg!");
+                stats();
             }else{
                 System.out.println("This is not eatable.");
             }

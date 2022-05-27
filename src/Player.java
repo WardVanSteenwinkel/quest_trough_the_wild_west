@@ -152,6 +152,17 @@ public class Player {
             for(Item i : items){
                 if(i.getName().equals(itemName)){
                     if(i instanceof Edible){
+                        Edible e = (Edible) i;
+                        if(e.getHealth() > 0){
+                            health += e.getHealth();
+                            System.out.println("Health increased by " + e.getHealth());
+                        }else if(e.getHealth() == 0){
+                            maxWeight += 5;
+                            System.out.println("Load capacity has increased by 5");
+                        }else{
+                            health -= e.getHealth();
+                            System.out.println("Health decreased by " + e.getHealth());
+                        }
                         items.remove(i);
                         return true;
                     }
