@@ -34,7 +34,7 @@ public class Game {
      * Create all the rooms and link their exits together.
      */
     private void createRooms() {
-        Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest, northForest, eastForest, southForest;
+        Room LosAngeles, DeathValley, MexicanBorder, Vancouver, PacificRoute, MountStHelens, GhostTown, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest, northForest, eastForest, southForest, Portal;
         Item gun, magicCookie, waterBottle, oxygenMask, magicBracelet, berry, magicBerry, bigGun, hikingSticks, berry2, berry3, map, superBerry;
         Person harry, johnny, bear, shark, wolf1, wolf2, wolf3, wolf4, magician;
 
@@ -73,6 +73,12 @@ public class Game {
         northForest= new Room("are in the forest. You can smell the fresh air from the trees");
         eastForest= new Room("are in the forest. You can smell the fresh air from the trees");
         southForest= new Room("are in the forest. You can smell the fresh air from the trees");
+        Portal = new Room("are in a Portal. This portal can bring you everywhere. Type 'go in'");
+
+        //random room
+        List<Room> allRooms = new ArrayList<>(Arrays.asList(LosAngeles, DeathValley, MexicanBorder, GhostTown, Vancouver, PacificRoute, MountStHelens, LA_Beach, Vancouver_Beach, LA_UnderWater, VANCOUVER_UnderWater, Forest, eastForest, northForest, southForest));
+        int random = r.nextInt(allRooms.size());
+        Room randomRoom = allRooms.get(random);
 
 
         // initialise room exits
@@ -97,6 +103,7 @@ public class Game {
         Vancouver_Beach.setExit("east", Vancouver);
         Vancouver_Beach.setExit("down", VANCOUVER_UnderWater);
         MountStHelens.setExit("down", Vancouver);
+        MountStHelens.setExit("in", Portal);
         VANCOUVER_UnderWater.setExit("up", Vancouver_Beach);
         VANCOUVER_UnderWater.setExit("south", LA_UnderWater);
         Forest.setExit("west", Vancouver);
@@ -106,6 +113,8 @@ public class Game {
         northForest.setExit("south", Forest);
         eastForest.setExit("west", Forest);
         southForest.setExit("north", Forest);
+        Portal.setExit("in", randomRoom); //random
+        Portal.setExit("out", MountStHelens);
 
 
         //create persons
@@ -138,10 +147,10 @@ public class Game {
         for (Item i : items){
             boolean placed = false;
             while(!placed){
-                int random = r.nextInt(rooms.size());
-                Room randomRoom = rooms.get(random);
-                if (!randomRoom.hasItems()){
-                    randomRoom.addItem(i);
+                int random1 = r.nextInt(rooms.size());
+                Room randomRoom1 = rooms.get(random1);
+                if (!randomRoom1.hasItems()){
+                    randomRoom1.addItem(i);
                     placed = true;
                 }
             }
@@ -151,10 +160,10 @@ public class Game {
         for (Person p : animals){
             boolean placed = false;
             while(!placed){
-                int random = r.nextInt(rooms2.size());
-                Room randomRoom = rooms2.get(random);
-                if (!randomRoom.hasPerson()){
-                    randomRoom.addPerson(p);
+                int random1 = r.nextInt(rooms2.size());
+                Room randomRoom1 = rooms2.get(random1);
+                if (!randomRoom1.hasPerson()){
+                    randomRoom1.addPerson(p);
                     placed = true;
                 }
             }
@@ -491,6 +500,7 @@ public class Game {
                 System.out.println("Your power increased +5");
                 stats();
                 r.addItem(p.dropItem("map"));
+                System.out.println("The " + p.getName() + " dropped an item...");
                 r.removePerson(p);
             }else{
                 System.out.println("Wrong hahaha!");
