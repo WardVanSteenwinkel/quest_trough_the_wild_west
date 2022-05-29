@@ -131,13 +131,13 @@ public class Game {
         magician.addItem(map);
 
         //initialise items and persons
-        Vancouver_Beach.addItem(waterBottle);
+        VANCOUVER_UnderWater.addItem(waterBottle);
         MexicanBorder.addItem(oxygenMask);
         PacificRoute.addPerson(harry);
         MexicanBorder.addPerson(bear);
         GhostTown.addPerson(johnny);
         Forest.addItem(berry);
-        VANCOUVER_UnderWater.addPerson(shark);
+        LA_Beach.addPerson(shark);
         southForest.addItem(hikingSticks);
         MountStHelens.addPerson(magician);
         DeathValley.addItem(superBerry);
